@@ -9,9 +9,10 @@ from consts import *
 
 class SlowFruit(Sprite):
     def __init__(self, app, x, y):
-        super().__init__(app, 'images/apple.png', x, y)
+        super().__init__(app, 'Basket-Final/images/apple.png', x, y)
 
         self.app = app
+        self.name = 'slow'
 
     def update(self):
         self.y += FRUIT_SLOW_SPEED
@@ -22,9 +23,10 @@ class SlowFruit(Sprite):
 
 class FastFruit(Sprite):
     def __init__(self, app, x, y):
-        super().__init__(app, 'images/banana.png', x, y)
+        super().__init__(app, 'Basket-Final/images/banana.png', x, y)
 
         self.app = app
+        self.name = 'fast'
 
     def update(self):
         self.y += FRUIT_FAST_SPEED
@@ -35,10 +37,11 @@ class FastFruit(Sprite):
 
 class SlideFruit(Sprite):
     def __init__(self, app, x, y):
-        super().__init__(app, 'images/cherry.png', x, y)
+        super().__init__(app, 'Basket-Final/images/cherry.png', x, y)
 
         self.app = app
         self.direction = randint(0,1)*2 - 1
+        self.name = 'slide'
 
     def update(self):
         self.y += FRUIT_FAST_SPEED
@@ -50,10 +53,11 @@ class SlideFruit(Sprite):
 
 class CurvyFruit(Sprite):
     def __init__(self, app, x, y):
-        super().__init__(app, 'images/pear.png', x, y)
+        super().__init__(app, 'Basket-Final/images/pear.png', x, y)
 
         self.app = app
         self.t = randint(0,360) * 2 * math.pi / 360
+        self.name = 'curvy'
 
     def update(self):
         self.y += FRUIT_SLOW_SPEED * 1.2
@@ -66,7 +70,7 @@ class CurvyFruit(Sprite):
 
 class Basket(Sprite):
     def __init__(self, app, x, y):
-        super().__init__(app, 'images/basket.png', x, y)
+        super().__init__(app, 'Basket-Final/images/basket.png', x, y)
 
         self.app = app
         self.direction = None
@@ -75,6 +79,7 @@ class Basket(Sprite):
         if self.direction == BASKET_LEFT:
             if self.x >= BASKET_MARGIN:
                 self.x -= BASKET_SPEED
+
         elif self.direction == BASKET_RIGHT:
             if self.x <= CANVAS_WIDTH - BASKET_MARGIN:
                 self.x += BASKET_SPEED
@@ -82,6 +87,8 @@ class Basket(Sprite):
     def check_collision(self, fruit):
         if self.distance_to(fruit) <= BASKET_CATCH_DISTANCE:
             fruit.to_be_deleted = True
+            if fruit.name == 'fast' or fruit.name == 'slide':
+                self.app.score += 1
             self.app.score += 1
             self.app.update_score()
 
