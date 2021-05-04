@@ -89,6 +89,8 @@ class Basket(Sprite):
             fruit.to_be_deleted = True
             if fruit.name == 'fast' or fruit.name == 'slide':
                 self.app.score += 1
+            elif fruit.name == 'curvy':
+                self.app.score += 2
             self.app.score += 1
             self.app.update_score()
 
